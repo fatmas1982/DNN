@@ -1,0 +1,99 @@
+1
+The objective function of an autoencoder is to reconstruct its input, i.e., it is trying to learn a function f, such that f(x)=x for all points x in the dataset. Clearly there is a trivial solution to this. f can just copy the input to the output, so that f(x)=x for all x. Why does the network not learn to do this ?
+
+The network has constraints, such as bottleneck layers, sparsity and bounded activation functions which make the network incapable of copying the entire input all the way to the output.
+
+Optimization algorithms that are used to train the autoencoder are not exact. So the network cannot easily learn to copy the input to the output.
+
+Since all the hidden units in an autoencoder are linear, the model is not powerful enough to learn the identity transform, unless the number of hidden units in each layer is not less than the number of input dimensions.
+=============
+This should not be selected 
+============
+Hidden units in deep autoencoders can have any non-linear activation function. In fact, it is this non-linearity that makes them much more powerful than PCA.
+
+The objective function used to train an autoencoder is to minimize reconstruction error if x lies in the dataset but maximize it if x does not belong to the dataset. This prevents it from copying the input to the output for all x.
+
+2
+The process of autoencoding a vector seems to lose some information since the autoencoder cannot reconstruct the input exactly (as seen by the blurring of reconstructed images reconstructed from 256-bit codes). In other words, the intermediate representation appears to have less information than the input representation. In that case, why is this intermediate representation more useful than the input representation ?
+
+The intermediate representation is more compressible than the input representation.
+
+The intermediate representation has more noise.
+
+The intermediate representation actually has more information than the inputs.
+
+The intermediate representation may take much less memory to store and much less time to do comparisons with compared to the input. That makes matching queries to a database faster.
+Correct 
+3
+Why is it harder to train deep autoencoders compared to shallow ones ?
+
+The objective function is intractable for deep autoencoders.
+
+Starting with small initial weights, backpropagated gradients become very small going down through the network, so the bottom layers do not get much gradient.
+Correct 
+Due to the presence of saturating activation functions, the gradients may start decreasing rapidly going down the network.
+
+The Markov chain involved in estimate negative phase sufficient statistics does not mix well.
+
+Backpropagation is not exact for deep autoencoders.
+
+
+4
+In all the autoencoders discussed in the lecture, the decoder network has the same number of layers and hidden units as the encoder network, but arranged in reverse order. Brian feels that this is not a strict requirement for building an autoencoder. He insists that we can build an autoencoder which has a very different decoder network than the encoder network. Which of the following statements is correct?
+
+Brian is correct. We can indeed have any decoder network, as long as it produces output of the same shape as the data, so that we can compare the output to the original data and tell the network where it's making mistakes.
+
+Brian is correct, as long as the decoder network has the same number of parameters as the encoder network.
+This should not be selected 
+This is completely made up.
+
+Brian is mistaken. The decoder network must have the same architecture. Otherwise backpropagation will not work.
+
+Brian is correct, as long as the decoder network has at most as many parameters as the encoder network.
+
+Correct
+
+5. 
+Another way of extracting short codes for images is to hash them using standard hash functions. These functions are very fast to compute, require no training and transform inputs into fixed length representations. Why is it more useful to learn an autoencoder to do this ?
+
+Autoencoders have smooth objective functions whereas standard hash functions have no concept of an objective function.
+
+Autoencoders have several hidden units, unlike hash functions.
+
+Autoencoders are smooth functions and map nearby points in input space to nearby points in code space. They are also invariant to small fluctuations in the input. In this sense, this hashing is locality-sensitive, whereas general hash functions are not locality-sensitive.
+Correct 
+
+For an autoencoder, it is possible to invert the mapping from the hashed value to the reconstruct the original input using the decoder, while this is not true for most hash functions.
+
+Incorrect
+
+6. 
+RBMs and single-hidden layer autoencoders can both be seen as different ways of extracting one layer of hidden variables from the inputs. In what sense are they different ?
+
+RBMs are undirected graphical models, but autoencoders are feed-forward neural nets.
+Correct 
+
+RBMs work only with binary inputs but autoencoders work with all kinds of inputs.
+Un-selected is correct 
+
+The objective function and its gradients are intractable to compute exactly for RBMs but can be computed efficiently exactly for autoencoders.
+This should be selected 
+
+RBMs define a probability distribution over the hidden variables conditioned on the visible units while autoencoders define a deterministic mapping from inputs to hidden variables.
+Correct 
+RBMs define a joint density P(v,h). Given v, we can compute P(h|v). Autoencoders define a function h=f(v).
+
+Correct
+1 / 1 points
+7. 
+Autoencoders seem like a very powerful and flexible way of learning hidden representations. You just need to get lots of data and ask the neural network to reconstruct it. Gradients and objective functions can be exactly computed. Any kind of data can be plugged in. What might be a limitation of these models ?
+
+The inference process for finding states of hidden units given the input is intractable for autoencoders.
+
+If the input data comes with a lot of noise, the autoencoder is being forced to reconstruct noisy input data. Being a deterministic mapping, it has to spend a lot of capacity in modelling the noise in order to reconstruct correctly. That capacity is not being used for anything semantically valuable, which is a waste.
+Correct 
+Note that this is different from denoising autoencoders. In that case, clean inputs are available which are used as targets. The noise is only in the inputs.
+
+Autoencoders cannot work with discrete-valued inputs.
+
+The hidden representations are noisy.
